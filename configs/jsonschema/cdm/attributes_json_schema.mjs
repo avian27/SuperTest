@@ -285,7 +285,7 @@ export const successShortTextAttributeSchema = {
     properties: {
         attribute: {
             type: 'object',
-            required: ['formatting', 'allowed_values', '_id', 'name', 'active', 'code', 'auto_sync_to_prod', 'vms_visible', 'vms_editable', 
+            required: ['formatting', '_id', 'name', 'active', 'code', 'auto_sync_to_prod', 'vms_visible', 'vms_editable', 
             'store_filter', 'store_search', 'store_compare', 'tags', 'type',  'x_org_id', 'created_by', 
             'modified_by', 'created_by_email', 'modified_by_email', 'mandatory', 'created_at', 'updated_at'],
             properties: {
@@ -312,9 +312,6 @@ export const successShortTextAttributeSchema = {
                 },
                 updatedAt: {
                     type: 'string'
-                },
-                allowed_values: {
-                    type: 'array'
                 },
                 tags: {
                     type: 'array'
@@ -357,7 +354,7 @@ export const successShortTextAttributeSchema = {
 export const getShortTextAttributeSchema = {
     title : 'Get Short Text Attribute Creation',
     type: 'object',
-    required: ['formatting', 'allowed_values', '_id', 'name', 'active', 'code', 'auto_sync_to_prod', 'vms_visible', 'vms_editable', 
+    required: ['formatting', '_id', 'name', 'active', 'code', 'auto_sync_to_prod', 'vms_visible', 'vms_editable', 
     'store_filter', 'store_search', 'store_compare', 'tags', 'type', 'mandatory', 'x_org_id', 'created_by', 
     'modified_by', 'created_by_email', 'modified_by_email', 'created_at', 'updated_at'],
     properties: {
@@ -384,9 +381,6 @@ export const getShortTextAttributeSchema = {
         },
         updatedAt: {
             type: 'string'
-        },
-        allowed_values: {
-            type: 'array'
         },
         tags: {
             type: 'array'
