@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests/**/**.spec.mjs --reporter mochawesome --grep"
+    "test": "mocha --config mocha.config.js --grep"
   },
   "keywords": [],
   "author": "",

@@ -26,9 +26,9 @@ function categoryArrayData(arraySize){
     return tempCategories;
 }
 
-describe('Create Organisation @cdm @org', async()=>{
+describe('Create Organisation @cdm @org', async function(){
 
-    it('Create Org - User is not logged in', async()=>{
+    it('Create Org - User is not logged in', async function(){
         let categories = [];
         payloadData = createOrgPayload(faker.company.name());
         categories = categoryArrayData(payloadData.categoriesCount);
@@ -56,7 +56,7 @@ describe('Create Organisation @cdm @org', async()=>{
 
     });
 
-    it('Create Org - User is logged in and invalid value is sent for type', async()=>{
+    it('Create Org - User is logged in and invalid value is sent for type', async function(){
         let categories = [];
         const invalidType = faker.random.alpha(5);
         orgName = faker.company.name();
@@ -86,7 +86,7 @@ describe('Create Organisation @cdm @org', async()=>{
         expect(res.body.message).to.be.eq('type: must be equal to one of the allowed values');     
     });
 
-    it('Create Org - User is logged in and OrgName is sent as empty String', async()=>{
+    it('Create Org - User is logged in and OrgName is sent as empty String', async function(){
         let categories = [];
         orgName = faker.company.name();
         payloadData = createOrgPayload(orgName);
@@ -115,7 +115,7 @@ describe('Create Organisation @cdm @org', async()=>{
         expect(res.body.message).to.be.eq('name: should not be empty');     
     });
 
-    it('Create Org - User is logged in, successfull brand creation', async()=>{
+    it('Create Org - User is logged in, successfull brand creation', async function(){
         let categories = [];
         orgName = faker.company.name();
         duplicateOrgName = orgName;
@@ -159,7 +159,7 @@ describe('Create Organisation @cdm @org', async()=>{
         expect(res.body.detail.address.pincode).to.be.eq(payloadData.address.pincode);     
     });
 
-    it('Create Org - User is logged in, No Categories are sent', async()=>{
+    it('Create Org - User is logged in, No Categories are sent', async function(){
         let categories = [];
         orgName = faker.company.name();
         payloadData = createOrgPayload(orgName);
@@ -199,7 +199,7 @@ describe('Create Organisation @cdm @org', async()=>{
         expect(res.body.detail.address.pincode).to.be.eq(payloadData.address.pincode);     
     });
 
-    it('Create Org - User is logged in, already existing org name is used', async()=>{
+    it('Create Org - User is logged in, already existing org name is used', async function(){
         let categories = [];
         payloadData = createOrgPayload(duplicateOrgName);
         categories = categoryArrayData(payloadData.categoriesCount);
@@ -227,7 +227,7 @@ describe('Create Organisation @cdm @org', async()=>{
         expect(res.body.message).to.be.eq(`Organization Already Exists`);
     });
 
-    it('Create Org - User is logged in, Address data is not sent', async()=>{
+    it('Create Org - User is logged in, Address data is not sent', async function(){
         let categories = [];
         orgName = faker.company.name();
         payloadData = createOrgPayload(orgName);
@@ -263,7 +263,7 @@ describe('Create Organisation @cdm @org', async()=>{
         expect(res.body.detail.address).to.be.empty;
     });
 
-    it('Create Org - User is logged in, successfull vendor creation', async()=>{
+    it('Create Org - User is logged in, successfull vendor creation', async function(){
         let categories = [];
         orgName = faker.company.name();
         payloadData = createOrgPayload(orgName);
@@ -308,9 +308,9 @@ describe('Create Organisation @cdm @org', async()=>{
 
 });
 
-describe('Fetch Organisation Details @cdm @org', async()=>{
+describe('Fetch Organisation Details @cdm @org', async function(){
 
-    it('Get All Organisation Details - User not logged in', async()=>{
+    it('Get All Organisation Details - User not logged in', async function(){
         payload = null;
         signed_headers = getSignedRequestHeaders("GET", baseUrl, getAllOrgForLoggedInUserEndPoint, payload, {});
         headers = {
@@ -325,7 +325,7 @@ describe('Fetch Organisation Details @cdm @org', async()=>{
         expect(res.body.message).to.be.eq('User not in request');
     });
 
-    it('Get All Organisation Details - User logged in', async()=>{
+    it('Get All Organisation Details - User logged in', async function(){
         payload = null;
         signed_headers = getSignedRequestHeaders("GET", baseUrl, getAllOrgForLoggedInUserEndPoint, payload, {});
         headers = {
@@ -341,7 +341,7 @@ describe('Fetch Organisation Details @cdm @org', async()=>{
         expect(res.body).to.be.jsonSchema(getAllOrgSchema);
     });
 
-    it('Get Organisation Details by OrgId - User is not logged in', async()=>{
+    it('Get Organisation Details by OrgId - User is not logged in', async function(){
         payload = null;
         orgId = brandOrgId;
         endpoint = getOrgbyIdEndpoint(orgId);
@@ -357,7 +357,7 @@ describe('Fetch Organisation Details @cdm @org', async()=>{
         expect(res.body.error).to.be.eq('Unauthorized');
     });
 
-    it('Get Organisation Details by OrgId - User is logged in but invalid orgId is provided', async()=>{
+    it('Get Organisation Details by OrgId - User is logged in but invalid orgId is provided', async function(){
         payload = null;
         orgId = brandOrgId.substring(0, brandOrgId.length-1);
         endpoint = getOrgbyIdEndpoint(orgId);
@@ -374,7 +374,7 @@ describe('Fetch Organisation Details @cdm @org', async()=>{
         expect(res.body.error).to.be.eq('Invalid organisation');
     });
 
-    it('Get Organisation Details by OrgId - User logged in and Brand details are fetched', async()=>{
+    it('Get Organisation Details by OrgId - User logged in and Brand details are fetched', async function(){
         payload = null;
         orgId = brandOrgId;
         endpoint = getOrgbyIdEndpoint(orgId);
@@ -404,7 +404,7 @@ describe('Fetch Organisation Details @cdm @org', async()=>{
         expect(res.body.detail.address.pincode).to.be.eq(persistPayload.address.pincode);
     });
 
-    it('Get Organisation Details by OrgId - User logged in and Vendor details are fetched', async()=>{
+    it('Get Organisation Details by OrgId - User logged in and Vendor details are fetched', async function(){
         payload = null;
         orgId = vendorOrgId;
         endpoint = getOrgbyIdEndpoint(orgId);
@@ -437,9 +437,9 @@ describe('Fetch Organisation Details @cdm @org', async()=>{
 
 });
 
-describe('Update Organisation Details @cdm @org', async()=>{
+describe('Update Organisation Details @cdm @org', async function(){
 
-    it('Update Org Details - User is not logged in', async()=>{
+    it('Update Org Details - User is not logged in', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
@@ -464,7 +464,7 @@ describe('Update Organisation Details @cdm @org', async()=>{
         expect(res.body.error).to.be.eq('Unauthorized');
     });
 
-    it('Update Org Details - Invalid Org Id is sent', async()=>{
+    it('Update Org Details - Invalid Org Id is sent', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
@@ -490,7 +490,7 @@ describe('Update Organisation Details @cdm @org', async()=>{
         expect(res.body.error).to.be.eq('Invalid organisation');
     });
 
-    it('Update Org Details - Empty string is sent for name', async()=>{
+    it('Update Org Details - Empty string is sent for name', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
@@ -517,7 +517,7 @@ describe('Update Organisation Details @cdm @org', async()=>{
         error message is unknown for now.*/
     });
 
-    it('Update Org Details - String is sent for Pincode', async()=>{
+    it('Update Org Details - String is sent for Pincode', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
@@ -551,7 +551,7 @@ describe('Update Organisation Details @cdm @org', async()=>{
         error message is unknown for now.*/
     });
 
-    it('Update Org Details - User is logged in and Org is Updated successfully', async()=>{
+    it('Update Org Details - User is logged in and Org is Updated successfully', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
@@ -585,7 +585,7 @@ describe('Update Organisation Details @cdm @org', async()=>{
         expect(res.body.data.address.country).to.be.eq(payloadData.address.country);
     });
 
-    it('Update Org Details - Only Name is updated', async()=>{
+    it('Update Org Details - Only Name is updated', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
@@ -610,7 +610,7 @@ describe('Update Organisation Details @cdm @org', async()=>{
         expect(res.body.data.display_name).to.be.eq(payloadData.orgName);
     });
 
-    it('Update Org Details - Only pincode is updated', async()=>{
+    it('Update Org Details - Only pincode is updated', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
@@ -637,7 +637,7 @@ describe('Update Organisation Details @cdm @org', async()=>{
         expect(res.body.data.address.pincode).to.be.eq(payloadData.address.pincode);
     });
 
-    it('Update Org Details - Only city is updated', async()=>{
+    it('Update Org Details - Only city is updated', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
@@ -664,7 +664,7 @@ describe('Update Organisation Details @cdm @org', async()=>{
         expect(res.body.data.address.city).to.be.eq(payloadData.address.city);
     });
 
-    it('Update Org Details - Only State is updated', async()=>{
+    it('Update Org Details - Only State is updated', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
@@ -691,7 +691,7 @@ describe('Update Organisation Details @cdm @org', async()=>{
         expect(res.body.data.address.state).to.be.eq(payloadData.address.state);
     });
 
-    it('Update Org Details - Only Country is updated', async()=>{
+    it('Update Org Details - Only Country is updated', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
@@ -718,7 +718,7 @@ describe('Update Organisation Details @cdm @org', async()=>{
         expect(res.body.data.address.country).to.be.eq(payloadData.address.country);
     });
 
-    it('Update Org Details - Only Company Size is updated', async()=>{
+    it('Update Org Details - Only Company Size is updated', async function(){
         const updateOrgName = faker.random.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {

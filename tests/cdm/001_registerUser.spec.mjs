@@ -23,9 +23,9 @@ before(() => {
     invalidUserName = email.split(".com")[0];
 });
 
-describe('User Registration @cdm', async () => {
+describe('User Registration @cdm @reg', async function() {
 
-    it('User Registration - Successful', async () => {
+    it('User Registration - Successful', async function() {
         payload = JSON.stringify({
             "username": email,
             "password": password,
@@ -49,7 +49,7 @@ describe('User Registration @cdm', async () => {
         expect(res.body.email).to.be.eq(email.toLowerCase());
     })
 
-    it('User Registration - Password only contain alphabets', async () => {
+    it('User Registration - Password only contain alphabets', async function() {
         invalidPassword = faker.random.alpha(10);
         payload = JSON.stringify({
             "username": email,
@@ -72,7 +72,7 @@ describe('User Registration @cdm', async () => {
         expect(res.body.errors[0].param).to.be.eq('password')
     })
 
-    it('User Registration - Password only contain numbers', async () => {
+    it('User Registration - Password only contain numbers', async function() {
         invalidPassword = faker.random.numeric(10);
         payload = JSON.stringify({
             "username": email,
@@ -95,7 +95,7 @@ describe('User Registration @cdm', async () => {
         expect(res.body.errors[0].param).to.be.eq('password')
     })
 
-    it('User Registration - Password length is less than 8', async () => {
+    it('User Registration - Password length is less than 8', async function() {
         invalidPassword = `${faker.random.alpha(3)}${faker.random.numeric(3)}${symbols.charAt(Math.floor(Math.random()*symbols.length))}`
         payload = JSON.stringify({
             "username": email,
@@ -118,7 +118,7 @@ describe('User Registration @cdm', async () => {
         expect(res.body.errors[0].param).to.be.eq('password')
     })
 
-    it('User Registration - FirstName not sent', async () => {
+    it('User Registration - FirstName not sent', async function() {
         payload = JSON.stringify({
             "username": email,
             "password": password,
@@ -140,7 +140,7 @@ describe('User Registration @cdm', async () => {
         expect(res.body.errors[0].msg).to.be.eq('firstName: should not be empty');
     })
 
-    it('User Registration - LastName not sent', async () => {
+    it('User Registration - LastName not sent', async function() {
         payload = JSON.stringify({
             "username": email,
             "password": password,
@@ -161,7 +161,7 @@ describe('User Registration @cdm', async () => {
         expect(res.body.errors[0].msg).to.be.eq('lastName: should not be empty');
     })
 
-    it('User Registration - Invalid email sent', async () => {
+    it('User Registration - Invalid email sent', async function() {
         payload = JSON.stringify({
             "username": invalidUserName,
             "password": password,
@@ -185,7 +185,7 @@ describe('User Registration @cdm', async () => {
         expect(res.body.errors[0].param).to.be.eq('username');
     })
 
-    it('User Registration - User already registered', async () => {
+    it('User Registration - User already registered', async function() {
         payload = JSON.stringify({
             "username": process.env.CDM_USERNAME,
             "password": password,
@@ -208,9 +208,9 @@ describe('User Registration @cdm', async () => {
     })
 });
 
-describe('Complete User Registration @cdm', async()=>{
+describe('Complete User Registration @cdm @reg', async()=>{
     
-    it('Complete User Registration - empty string sent as code', async () => {
+    it('Complete User Registration - empty string sent as code', async function() {
         payload = JSON.stringify({
             "code":""
         });

@@ -9,6 +9,7 @@ import { fetchBrandOrgId } from "../../helpers/cdm/organisation_payload.mjs";
 import * as categoriesSchema from "../../configs/jsonschema/cdm/categories_json_schema.mjs";
 import * as categories from "../../configs/constants/cdm/constants.mjs";
 import {EnvironmentConfiguration} from "../../envs.config.mjs";
+import * as FO from "../../helpers/cdm/readWrite_data_json.mjs";
 
 chai.use(jsonSchema);
 dotenv.config();

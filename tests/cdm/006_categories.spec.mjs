@@ -8,28 +8,28 @@ import { getCookie } from "../../helpers/cdm/cookie.mjs";
 import { fetchBrandOrgId } from "../../helpers/cdm/organisation_payload.mjs";
 import * as categoriesSchema from "../../configs/jsonschema/cdm/categories_json_schema.mjs";
 import * as categories from "../../configs/constants/cdm/constants.mjs";
-import { EnvironmentConfiguration } from "../../envs.config.mjs";
+import {EnvironmentConfiguration} from "../../envs.config.mjs";
 import * as FO from "../../helpers/cdm/readWrite_data_json.mjs";
 
 const dataJsonFile = 'dataFile.json';
 
 chai.use(jsonSchema);
 dotenv.config();
-const attributeDetailsFile = 'attributesDetails.json';
+const attributeDetailsFile = 'attributesDetails.json'
 let payload, signed_headers, headers, endpoint, orgId, res, categoryCode, categoryName;
 let totalCategoryCount, categoryId;
-const cookie = await getCookie(process.env.CDM_USERNAME, process.env.CDM_PASSWORD);
+const cookie = await getCookie(process.env.TEST_UNAME,process.env.TEST_PASS);
 const baseUrl = EnvironmentConfiguration.getURL(process.env.DOMAIN);
 const request = supertest(`https://${baseUrl}`);
 
 
-describe('Categories and Category Mapping Api Test Cases @cdm @category', async () => {
-    before(async () => {
-        orgId = FO.getValueFromFile(attributeDetailsFile, 'OrgId');
+describe('Categories and Category Mapping Api Test Cases @cdm @category', async function(){
+    before(async function() {
+        orgId = FO.getValueFromFile(attributeDetailsFile,'OrgId');
     });
-    describe('Category Api Test Cases @cdm @category', async () => {
-        describe('Create Category Api test cases', async () => {
-            it('Create Category calls failed - User is not logged in', async () => {
+    describe('Category Api Test Cases @cdm @category', async function(){
+        describe('Create Category Api test cases', async function(){
+            it('Create Category calls failed - User is not logged in', async function(){
                 const categoryCode = `${faker.random.alpha(5)}-${faker.random.numeric(5)}`;
                 const categoryName = `${faker.random.alpha(5)}-${faker.random.numeric(5)}`;
                 endpoint = categories.createCategoryEndpoint(orgId);
@@ -50,11 +50,11 @@ describe('Categories and Category Mapping Api Test Cases @cdm @category', async 
                 expect(res.statusCode).to.be.equal(403);
                 expect(res.body.error).to.be.equal('Unauthorized');
             });
-
-            it('Create Category calls failed - User is logged in but invalid orgId is sent', async () => {
+    
+            it('Create Category calls failed - User is logged in but invalid orgId is sent', async function(){
                 const categoryCode = `${faker.random.alpha(5)}-${faker.random.numeric(5)}`;
                 const categoryName = `${faker.random.alpha(5)}-${faker.random.numeric(5)}`;
-                endpoint = categories.createCategoryEndpoint(orgId.substring(0, orgId.length - 1));
+                endpoint = categories.createCategoryEndpoint(orgId.substring(0, orgId.length-1));
                 payload = JSON.stringify({
                     "code": categoryCode,
                     "name": categoryName
@@ -73,8 +73,8 @@ describe('Categories and Category Mapping Api Test Cases @cdm @category', async 
                 expect(res.statusCode).to.be.equal(401);
                 expect(res.body.error).to.be.equal('Invalid organisation');
             });
-
-            it('Create Category call is successful- User is logged and proper data is sent', async () => {
+    
+            it('Create Category call is successful- User is logged and proper data is sent', async function(){
                 categoryCode = `${faker.random.alpha(5)}-${faker.random.numeric(5)}`;
                 categoryName = `${faker.random.alpha(5)}-${faker.random.numeric(5)}`;
                 endpoint = categories.createCategoryEndpoint(orgId);
@@ -101,8 +101,8 @@ describe('Categories and Category Mapping Api Test Cases @cdm @category', async 
                 expect(res.body.archive).to.be.false;
                 expect(res.body.x_org_id).to.be.equal(orgId);
             });
-
-            it('Create Category call is successful- Already existing Name is sent', async () => {
+    
+            it('Create Category call is successful- Already existing Name is sent', async function(){
                 categoryCode = `${faker.random.alpha(5)}-${faker.random.numeric(5)}`;
                 endpoint = categories.createCategoryEndpoint(orgId);
                 payload = JSON.stringify({
@@ -128,8 +128,8 @@ describe('Categories and Category Mapping Api Test Cases @cdm @category', async 
                 expect(res.body.archive).to.be.false;
                 expect(res.body.x_org_id).to.be.equal(orgId);
             });
-
-            it('Create Category call fails - Already existing code is sent', async () => {
+    
+            it('Create Category call fails - Already existing code is sent', async function(){
                 categoryName = `${faker.random.alpha(5)}-${faker.random.numeric(5)}`;
                 endpoint = categories.createCategoryEndpoint(orgId);
                 payload = JSON.stringify({
@@ -150,8 +150,8 @@ describe('Categories and Category Mapping Api Test Cases @cdm @category', async 
                 expect(res.statusCode).to.be.equal(400);
                 expect(res.body.error).to.be.equal('Category code already exists');
             });
-
-            it('Create Category call fails - Only Name is sent', async () => {
+    
+            it('Create Category call fails - Only Name is sent', async function(){
                 categoryName = `${faker.random.alpha(5)}-${faker.random.numeric(5)}`;
                 endpoint = categories.createCategoryEndpoint(orgId);
                 payload = JSON.stringify({
@@ -172,8 +172,8 @@ describe('Categories and Category Mapping Api Test Cases @cdm @category', async 
                 expect(res.statusCode).to.be.equal(400);
                 expect(res.body.error).to.be.equal('ValidationError: code: Path `code` is required.');
             });
-
-            it('Create Category call fails - Only Code is sent', async () => {
+    
+            it('Create Category call fails - Only Code is sent', async function(){
                 categoryCode = `${faker.random.alpha(5)}-${faker.random.numeric(5)}`;
                 endpoint = categories.createCategoryEndpoint(orgId);
                 payload = JSON.stringify({
@@ -195,11 +195,11 @@ describe('Categories and Category Mapping Api Test Cases @cdm @category', async 
                 expect(res.body.error).to.be.equal('ValidationError: name: Path `name` is required.');
             });
         });
-
-        describe('Get Category Api Test Cases', async () => {
-
-            it('Get All Category Call fails - user is not logged in', async () => {
-                endpoint = categories.getAllCategoryEndpoint(orgId, 1);
+    
+        describe('Get Category Api Test Cases', async function(){
+    
+            it('Get All Category Call fails - user is not logged in', async function(){
+                endpoint = categories.getAllCategoryEndpoint(orgId,1);
                 payload = null;
                 signed_headers = getSignedRequestHeaders("GET", baseUrl, endpoint, payload, {});
                 headers = {
@@ -213,9 +213,9 @@ describe('Categories and Category Mapping Api Test Cases @cdm @category', async 
                 expect(res.statusCode).to.be.equal(403);
                 expect(res.body.error).to.be.equal('Unauthorized');
             });
-
-            it('Get All Category Call is successfull - User is logged in', async () => {
-                endpoint = categories.getAllCategoryEndpoint(orgId, 1);
+    
+            it('Get All Category Call is successfull - User is logged in', async function(){
+                endpoint = categories.getAllCategoryEndpoint(orgId,1);
                 payload = null;
                 signed_headers = getSignedRequestHeaders("GET", baseUrl, endpoint, payload, {});
                 headers = {
@@ -229,7 +229,7 @@ describe('Categories and Category Mapping Api Test Cases @cdm @category', async 
                     .set(headers);
                 let expectedDocumentsInCurrPage;
                 totalCategoryCount = res.body.item_total;
-                if (totalCategoryCount > 10) {
+                if(totalCategoryCount>10){
                     expectedDocumentsInCurrPage = 10
                 }
                 else {
