@@ -7,25 +7,25 @@ import { getSignedRequestHeaders } from '../../helpers/cdm/signature.mjs';
 import { getCookie } from "../../helpers/cdm/cookie.mjs";
 import { loginResSchema, currentSessionInfoSchema } from "../../configs/jsonschema/cdm/onboarding_json_schema.mjs";
 import { currentSessionApiEndPoint, loginApiEndPoint, logoutApiEndPoint, profileDetailsEndPoint } from "../../configs/constants/cdm/constants.mjs";
-import {EnvironmentConfiguration} from "../../envs.config.mjs";
+import { EnvironmentConfiguration } from "../../envs.config.mjs";
 
 chai.use(jsonSchema);
 dotenv.config();
 let invalidUserName, invalidPassword, payload, signed_headers, headers, res;
-const cookie = await getCookie(process.env.CDM_USERNAME,process.env.CDM_PASSWORD);
+const cookie = await getCookie(process.env.CDM_USERNAME, process.env.CDM_PASSWORD);
 const baseUrl = EnvironmentConfiguration.getURL(process.env.DOMAIN);
 const request = supertest(`https://${baseUrl}`);
 
 
 
-describe('Login Api Test Cases @cdm @login', async function(){
+describe('Login Api Test Cases @cdm @login', async function () {
     before(() => {
         invalidUserName = faker.internet.email();
         invalidPassword = faker.internet.password();
     });
 
-    describe('Login @cdm @login', async function() {
-        it('login success', async function() {
+    describe('Login @cdm @login', async function () {
+        it('login success', async function () {
             payload = JSON.stringify({
                 "username": process.env.CDM_USERNAME,
                 "password": process.env.CDM_PASSWORD
@@ -46,8 +46,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
             expect(res.body.user.meta.registrationMethod).to.be.equal('password');
             expect(res.body.user.active).to.be.true;
         });
-    
-        it('login failure invalid userName', async function() {
+
+        it('login failure invalid userName', async function () {
             payload = JSON.stringify({
                 "username": invalidUserName,
                 "password": process.env.CDM_PASSWORD
@@ -65,8 +65,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
             expect(res.statusCode).to.be.eq(401);
             expect(res.body.message).to.be.eq("Invalid username/password");
         });
-    
-        it('login failure invalid password', async function() {
+
+        it('login failure invalid password', async function () {
             payload = JSON.stringify({
                 "username": process.env.CDM_USERNAME,
                 "password": invalidPassword
@@ -84,8 +84,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
             expect(res.statusCode).to.be.eq(401);
             expect(res.body.message).to.be.eq("Invalid username/password");
         });
-    
-        it('login failure', async function() {
+
+        it('login failure', async function () {
             payload = JSON.stringify({
                 "username": invalidUserName,
                 "password": invalidPassword
@@ -104,10 +104,10 @@ describe('Login Api Test Cases @cdm @login', async function(){
             expect(res.body.message).to.be.eq("Invalid username/password");
         });
     });
-    
-    describe('Current Session Info @cdm @login', async function(){
-    
-        it('Current Session - User is not logged in', async function(){
+
+    describe('Current Session Info @cdm @login', async function () {
+
+        it('Current Session - User is not logged in', async function () {
             signed_headers = getSignedRequestHeaders("GET", baseUrl, currentSessionApiEndPoint, "", {});
             headers = {
                 'Content-type': 'application/json;charset=UTF-8',
@@ -120,8 +120,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
             expect(res.statusCode).to.be.eq(401);
             expect(res.body.authenticated).to.be.equal(false);
         });
-    
-        it('Current Session - User is logged in', async function(){
+
+        it('Current Session - User is logged in', async function () {
             signed_headers = getSignedRequestHeaders("GET", baseUrl, currentSessionApiEndPoint, "", {});
             headers = {
                 'Content-type': 'application/json;charset=UTF-8',
@@ -141,10 +141,10 @@ describe('Login Api Test Cases @cdm @login', async function(){
             expect(res.body.session.misc.headers.host).to.be.eq(baseUrl);
         });
     });
-    
-    describe('Profile Details @cdm @profile', async function(){
-        describe('Get Profile Details', async function(){
-            it('User is not logged in', async function(){
+
+    describe('Profile Details @cdm @profile', async function () {
+        describe('Get Profile Details', async function () {
+            it('User is not logged in', async function () {
                 signed_headers = getSignedRequestHeaders("GET", baseUrl, profileDetailsEndPoint, "", {});
                 headers = {
                     'Content-type': 'application/json;charset=UTF-8',
@@ -157,8 +157,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
                 expect(res.statusCode).to.be.eq(401);
                 expect(res.body.authenticated).to.be.false;
             });
-    
-            it('User is logged in', async function(){
+
+            it('User is logged in', async function () {
                 signed_headers = getSignedRequestHeaders("GET", baseUrl, profileDetailsEndPoint, "", {});
                 headers = {
                     'Content-type': 'application/json;charset=UTF-8',
@@ -175,11 +175,11 @@ describe('Login Api Test Cases @cdm @login', async function(){
                 expect(res.body.user.meta.registrationMethod).to.be.eq('password');
             });
         });
-    
-        describe('Update Profile Details', async function(){
+
+        describe('Update Profile Details', async function () {
             let updatedFirstName = faker.name.firstName();
             let updatedLastName = faker.name.lastName();
-            it('User is not logged in', async function(){
+            it('User is not logged in', async function () {
                 payload = JSON.stringify({
                     "firstName": updatedFirstName,
                     "lastName": updatedLastName
@@ -197,8 +197,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
                 expect(res.statusCode).to.be.eq(401);
                 expect(res.body.authenticated).to.be.false;
             });
-    
-            it('User is logged in and FirstName is updated as empty string', async function(){
+
+            it('User is logged in and FirstName is updated as empty string', async function () {
                 payload = JSON.stringify({
                     "firstName": ``,
                     "lastName": updatedLastName
@@ -218,8 +218,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
                 expect(res.body.errors[0].msg).to.be.eq('firstName: should not be empty');
                 expect(res.body.errors[0].param).to.be.eq('firstName')
             });
-    
-            it('User is logged in and LastName is updated as empty string', async function(){
+
+            it('User is logged in and LastName is updated as empty string', async function () {
                 payload = JSON.stringify({
                     "firstName": updatedFirstName,
                     "lastName": ``
@@ -239,8 +239,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
                 expect(res.body.errors[0].msg).to.be.eq('lastName: should not be empty');
                 expect(res.body.errors[0].param).to.be.eq('lastName')
             });
-    
-            it('User is logged in and valid data is sent', async function(){
+
+            it('User is logged in and valid data is sent', async function () {
                 payload = JSON.stringify({
                     "firstName": updatedFirstName,
                     "lastName": updatedLastName
@@ -261,8 +261,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
                 expect(res.body.user.firstName).to.be.eq(updatedFirstName);
                 expect(res.body.user.lastName).to.be.eq(updatedLastName);
             });
-    
-            it('User is logged in and only FirstName is updated', async function(){
+
+            it('User is logged in and only FirstName is updated', async function () {
                 updatedFirstName = faker.name.firstName();
                 payload = JSON.stringify({
                     "firstName": updatedFirstName
@@ -282,8 +282,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
                 expect(res.body).to.be.jsonSchema(loginResSchema);
                 expect(res.body.user.firstName).to.be.eq(updatedFirstName);
             });
-    
-            it('User is logged in and only LastName is updated', async function(){
+
+            it('User is logged in and only LastName is updated', async function () {
                 updatedLastName = faker.name.lastName();
                 payload = JSON.stringify({
                     "lastName": updatedLastName
@@ -303,12 +303,12 @@ describe('Login Api Test Cases @cdm @login', async function(){
                 expect(res.body).to.be.jsonSchema(loginResSchema);
                 expect(res.body.user.lastName).to.be.eq(updatedLastName);
             });
-    
+
         });
     });
-    
-    describe('Logout @cdm @login', async function() {
-        it('Logout success', async function() {
+
+    describe('Logout @cdm @login', async function () {
+        it('Logout success', async function () {
             signed_headers = getSignedRequestHeaders("POST", baseUrl, logoutApiEndPoint, "", {});
             headers = {
                 'Content-type': 'application/json;charset=UTF-8',
@@ -322,8 +322,8 @@ describe('Login Api Test Cases @cdm @login', async function(){
             expect(res.statusCode).to.be.eq(200);
             expect(res.body.success).to.be.equal(true);
         });
-    
-        it('Logout - no user is logged in', async function() {
+
+        it('Logout - no user is logged in', async function () {
             signed_headers = getSignedRequestHeaders("POST", baseUrl, logoutApiEndPoint, "", {});
             headers = {
                 'Content-type': 'application/json;charset=UTF-8',
