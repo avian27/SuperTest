@@ -23,7 +23,7 @@ before(() => {
     invalidUserName = email.split(".com")[0];
 });
 
-describe('User Registration @cdm @reg', async function () {
+describe('User Registration @cc_regression @reg', async function () {
 
     it('User Registration - Successful', async function () {
         payload = JSON.stringify({
@@ -50,7 +50,7 @@ describe('User Registration @cdm @reg', async function () {
     })
 
     it('User Registration - Password only contain alphabets', async function () {
-        invalidPassword = faker.random.alpha(10);
+        invalidPassword = faker.string.alpha(10);
         payload = JSON.stringify({
             "username": email,
             "password": invalidPassword,
@@ -73,7 +73,7 @@ describe('User Registration @cdm @reg', async function () {
     })
 
     it('User Registration - Password only contain numbers', async function () {
-        invalidPassword = faker.random.numeric(10);
+        invalidPassword = faker.number.int(10);
         payload = JSON.stringify({
             "username": email,
             "password": invalidPassword,
@@ -96,7 +96,7 @@ describe('User Registration @cdm @reg', async function () {
     })
 
     it('User Registration - Password length is less than 8', async function () {
-        invalidPassword = `${faker.random.alpha(3)}${faker.random.numeric(3)}${symbols.charAt(Math.floor(Math.random() * symbols.length))}`
+        invalidPassword = `${faker.string.alpha(3)}${faker.number.int(3)}${symbols.charAt(Math.floor(Math.random() * symbols.length))}`
         payload = JSON.stringify({
             "username": email,
             "password": invalidPassword,
@@ -208,7 +208,7 @@ describe('User Registration @cdm @reg', async function () {
     })
 });
 
-describe('Complete User Registration @cdm @reg', async () => {
+describe('Complete User Registration @cc_regression @reg', async () => {
 
     it('Complete User Registration - empty string sent as code', async function () {
         payload = JSON.stringify({

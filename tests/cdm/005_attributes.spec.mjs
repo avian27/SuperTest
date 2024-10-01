@@ -35,13 +35,13 @@ function compareArrayData(tempArr1, tempArr2) {
     return result;
 }
 
-describe('Attributes Api test cases @cdm @attributes', async function () {
+describe('Attributes Api test cases @cc_regression @attributes', async function () {
     before(async function () {
         orgId = await fetchBrandOrgId(baseUrl, cookie);
         FO.appendToFile(attributeDetailsFile, "OrgId", orgId);
     });
 
-    describe('Create Attributes @cdm @attributes', async function () {
+    describe('Create Attributes @cc_regression @attributes', async function () {
 
         it('Create Attribute - User is not logged in', async function () {
             endpoint = creatAttribute(orgId);
@@ -112,7 +112,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             expect(res.body.error).to.be.eq('Invalid organisation');
         });
 
-        it.only('Create Attribute - User is logged in, Short Text Attribute is created sucessfully', async function () {
+        it('Create Attribute - User is logged in, Short Text Attribute is created sucessfully', async function () {
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'ShortTextRandom';
             payloadData = attributePayloads.createShortTextAttributePayload(attributeNameCode);
@@ -146,28 +146,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.formatting).to.be.eq(payloadData.formatting);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.limit).to.be.eq(payloadData.limit);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
+            expect(res.body.formatting).to.be.eq(payloadData.formatting);
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.limit).to.be.eq(payloadData.limit);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully when only Name, Code and Type values are sent', async function () {
@@ -190,25 +190,25 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.formatting).to.be.eq("None");
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.tags.length).to.be.eq(0);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.formatting).to.be.eq("None");
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.tags.length).to.be.eq(0);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, Limit is set', async function () {
@@ -232,14 +232,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.limit).to.be.eq(payloadData.limit);
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.limit).to.be.eq(payloadData.limit);
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, Formatting is set as Uppercase', async function () {
@@ -265,14 +265,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.formatting).to.be.eq("Uppercase");
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.formatting).to.be.eq("Uppercase");
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, Formatting is set as Lowercase', async function () {
@@ -298,14 +298,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.formatting).to.be.eq("Lowercase");
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.formatting).to.be.eq("Lowercase");
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, Formatting is set as None', async function () {
@@ -331,14 +331,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.formatting).to.be.eq("None");
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.formatting).to.be.eq("None");
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, vms_visible is set to true', async function () {
@@ -364,14 +364,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.true;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, vms_visible is set to false', async function () {
@@ -397,14 +397,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, vms_editable is set to true', async function () {
@@ -430,14 +430,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_editable).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_editable).to.be.true;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, vms_editable is set to false', async function () {
@@ -463,14 +463,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_editable).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_editable).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, store_filter is set to true', async function () {
@@ -496,14 +496,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.store_filter).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.store_filter).to.be.true;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, store_filter is set to false', async function () {
@@ -529,14 +529,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.store_filter).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.store_filter).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, store_display_pdp is set to true', async function () {
@@ -562,15 +562,15 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.store_display_pdp).to.be.true;
-            expect(res.body.attribute.store_display_plp).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.store_display_pdp).to.be.true;
+            expect(res.body.store_display_plp).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, store_display_plp is set to true', async function () {
@@ -596,15 +596,15 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.store_display_plp).to.be.true;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.store_display_plp).to.be.true;
+            expect(res.body.store_display_pdp).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, store_display_pdp is set to false', async function () {
@@ -630,15 +630,15 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, store_display_plp is set to false', async function () {
@@ -664,15 +664,15 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, store_search is set to true', async function () {
@@ -698,14 +698,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.store_search).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.store_search).to.be.true;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, store_search is set to false', async function () {
@@ -731,14 +731,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.store_search).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.store_search).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, store_compare is set to true', async function () {
@@ -764,14 +764,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.store_compare).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.store_compare).to.be.true;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, store_compare is set to false', async function () {
@@ -797,14 +797,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.store_compare).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.store_compare).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, active is set to true', async function () {
@@ -830,14 +830,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.active).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.active).to.be.true;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, active is set to false', async function () {
@@ -863,14 +863,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.active).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.active).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, auto_sync_to_prod is set to true', async function () {
@@ -895,14 +895,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, auto_sync_to_prod is set to false', async function () {
@@ -927,14 +927,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.auto_sync_to_prod).to.be.false;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, mandatory is set to true', async function () {
@@ -958,14 +958,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.mandatory).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.mandatory).to.be.true;
         });
 
         it('Create Attribute - Short Text Attribute is created sucessfully, mandatory is set to false', async function () {
@@ -989,14 +989,14 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successShortTextAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.mandatory).to.be.false;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.mandatory).to.be.false;
         });
 
         it('Create Attribute - Create Attribute call fails, invalid value is sent in Formatting for ShortText type', async function () {
@@ -1009,7 +1009,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "type": payloadData.type,
                 "mandatory": payloadData.mandatory,
                 "auto_sync_to_prod": payloadData.auto_sync_to_prod,
-                "formatting": faker.random.alphaNumeric(10)
+                "formatting": faker.string.alphaNumeric(10)
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1033,7 +1033,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             payload = JSON.stringify({
                 "name": payloadData.name,
                 "code": payloadData.code,
-                "type": faker.random.alphaNumeric(5),
+                "type": faker.string.alphaNumeric(5),
                 "mandatory": payloadData.mandatory,
                 "auto_sync_to_prod": payloadData.auto_sync_to_prod
             });
@@ -1060,7 +1060,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "limit": faker.random.alpha(5),
+                "limit": faker.string.alpha(5),
                 "mandatory": payloadData.mandatory,
                 "auto_sync_to_prod": payloadData.auto_sync_to_prod
             });
@@ -1082,7 +1082,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Create Attribute - Create Attribute call fails, decimal value is sent in limit for ShortText type', async function () {
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createShortTextAttributePayload(attributeNameCode);
-            const temp = faker.datatype.number({ min: 0, max: 100, precision: 0.01 });
+            const temp = faker.number.int({ min: 0, max: 100, precision: 0.01 });
             payload = JSON.stringify({
                 "name": payloadData.name,
                 "code": payloadData.code,
@@ -1109,7 +1109,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Create Attribute - Create Attribute call fails, when negative value is sent in limit for ShortText type', async function () {
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createShortTextAttributePayload(attributeNameCode);
-            const temp = faker.datatype.number({ min: -100, max: -1 });
+            const temp = faker.number.int({ min: -100, max: -1 });
             payload = JSON.stringify({
                 "name": payloadData.name,
                 "code": payloadData.code,
@@ -1142,7 +1142,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "type": payloadData.type,
                 "mandatory": payloadData.mandatory,
                 "auto_sync_to_prod": payloadData.auto_sync_to_prod,
-                "active": faker.random.alpha(5),
+                "active": faker.string.alpha(5),
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1167,7 +1167,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "code": payloadData.code,
                 "type": payloadData.type,
                 "mandatory": payloadData.mandatory,
-                "auto_sync_to_prod": faker.random.alpha(5),
+                "auto_sync_to_prod": faker.string.alpha(5),
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1191,7 +1191,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "mandatory": faker.random.alpha(5),
+                "mandatory": faker.string.alpha(5),
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1215,7 +1215,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "vms_visible": faker.random.alpha(5),
+                "vms_visible": faker.string.alpha(5),
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1239,7 +1239,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "vms_editable": faker.random.alpha(5),
+                "vms_editable": faker.string.alpha(5),
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1263,7 +1263,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "store_filter": faker.random.alpha(5),
+                "store_filter": faker.string.alpha(5),
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1287,7 +1287,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "store_display_pdp": faker.random.alpha(5),
+                "store_display_pdp": faker.string.alpha(5),
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1311,7 +1311,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "store_search": faker.random.alpha(5),
+                "store_search": faker.string.alpha(5),
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1335,7 +1335,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "store_compare": faker.random.alpha(5),
+                "store_compare": faker.string.alpha(5),
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1385,27 +1385,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successParagraphAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.limit).to.be.eq(payloadData.limit);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.limit).to.be.eq(payloadData.limit);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
         });
 
         it('Create Attribute - Paragraph Attribute is created sucessfully, only Name, Code and type is sent', async function () {
@@ -1428,23 +1428,23 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successParagraphAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Paragraph Attribute is created sucessfully, when limit is sent in the body', async function () {
@@ -1468,28 +1468,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successParagraphAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.limit).to.be.eq(payloadData.limit);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.limit).to.be.eq(payloadData.limit);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Call fails for Paragraph Attribute type, when negative value is sent for limit, ', async function () {
-            const temp = faker.datatype.number({ min: -100, max: -1 });
+            const temp = faker.number.int({ min: -100, max: -1 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'invalid';
             payloadData = attributePayloads.createParagraphAttributePayload(attributeNameCode);
@@ -1515,7 +1515,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         });
 
         it('Create Attribute - Call fails for Paragraph Attribute type, when decimal value is sent for limit, ', async function () {
-            const temp = faker.datatype.number({ min: 0, max: 200, precision: 0.01 });
+            const temp = faker.number.int({ min: 0, max: 200, precision: 0.01 });
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createParagraphAttributePayload(attributeNameCode);
             payload = JSON.stringify({
@@ -1546,7 +1546,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "limit": faker.random.alpha(5)
+                "limit": faker.string.alpha(5)
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -1595,27 +1595,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successBasicAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq("HTML");
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq("HTML");
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
         });
 
         it('Create Attribute - HTML Attribute is created sucessfully, only Name, Code and Type values are sent', async function () {
@@ -1638,24 +1638,24 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successBasicAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq("HTML");
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq("HTML");
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - User is logged in, URL Attribute is created sucessfully', async function () {
@@ -1690,27 +1690,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successBasicAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq("URL");
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq("URL");
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
         });
 
         it('Create Attribute - URL Attribute is created sucessfully, only Name, Code and Type values are sent', async function () {
@@ -1733,24 +1733,24 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successBasicAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq("URL");
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq("URL");
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - User is logged in, Date Attribute is created sucessfully', async function () {
@@ -1785,27 +1785,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successBasicAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq("Date");
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq("Date");
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
         });
 
         it('Create Attribute - Date Attribute is created sucessfully, only Name, Code and Type values are sent', async function () {
@@ -1828,24 +1828,24 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successBasicAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq("Date");
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq("Date");
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - User is logged in, Boolean Attribute is created sucessfully', async function () {
@@ -1880,27 +1880,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successBasicAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq("Boolean");
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq("Boolean");
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
         });
 
         it('Create Attribute - Boolean Attribute is created sucessfully, only Name, Code and Type values are sent', async function () {
@@ -1923,24 +1923,24 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successBasicAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq("Boolean");
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq("Boolean");
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - User is logged in, Number Attribute is created sucessfully', async function () {
@@ -1977,31 +1977,31 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, "NumberRandomMax", payloadData.max);
             FO.appendToFile(attributeDetailsFile, "NumberRandomMin", payloadData.min);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.max).to.be.eq(payloadData.max);
-            expect(res.body.attribute.min).to.be.eq(payloadData.min);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.max).to.be.eq(payloadData.max);
+            expect(res.body.min).to.be.eq(payloadData.min);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
         });
 
         it('Create Attribute - Number Attribute is created sucessfully, only Name, Code and Type values are sent', async function () {
@@ -2024,26 +2024,26 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.max).to.be.null;
-            expect(res.body.attribute.min).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.max).to.be.null;
+            expect(res.body.min).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Number Attribute is created sucessfully, Value for only Max parameter is sent', async function () {
@@ -2067,27 +2067,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, 'NumberMaxValue', payloadData.max);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.max).to.be.eq(payloadData.max);
-            expect(res.body.attribute.min).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.max).to.be.eq(payloadData.max);
+            expect(res.body.min).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Number Attribute is created sucessfully, Value for only Min parameter is sent', async function () {
@@ -2111,31 +2111,31 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, 'NumberMinValue', payloadData.min);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.min).to.be.eq(payloadData.min);
-            expect(res.body.attribute.max).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.min).to.be.eq(payloadData.min);
+            expect(res.body.max).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Number Attribute is created sucessfully, Value for Min parameter is sent as negative integer', async function () {
-            const minVal = faker.datatype.number({ min: -100000, max: -1 });
+            const minVal = faker.number.int({ min: -100000, max: -1 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'NumberMinNeg';
             payloadData = attributePayloads.createNumberAttributePayload(attributeNameCode);
@@ -2156,30 +2156,30 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.min).to.be.eq(minVal);
-            expect(res.body.attribute.max).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.min).to.be.eq(minVal);
+            expect(res.body.max).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Number Attribute is created sucessfully, Value for Min parameter is sent as positive integer', async function () {
-            const minVal = faker.datatype.number({ min: 1, max: 100000 });
+            const minVal = faker.number.int({ min: 1, max: 100000 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'NumberMinPos';
             payloadData = attributePayloads.createNumberAttributePayload(attributeNameCode);
@@ -2200,30 +2200,30 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.min).to.be.eq(minVal);
-            expect(res.body.attribute.max).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.min).to.be.eq(minVal);
+            expect(res.body.max).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Number Attribute is created sucessfully, Value for Max parameter is sent as negative integer', async function () {
-            const maxVal = faker.datatype.number({ min: -100000, max: -1 });
+            const maxVal = faker.number.int({ min: -100000, max: -1 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'NumberMaxNeg';
             payloadData = attributePayloads.createNumberAttributePayload(attributeNameCode);
@@ -2244,30 +2244,30 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.max).to.be.eq(maxVal);
-            expect(res.body.attribute.min).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.max).to.be.eq(maxVal);
+            expect(res.body.min).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Number Attribute is created sucessfully, Value for Max parameter is sent as positive integer', async function () {
-            const maxVal = faker.datatype.number({ min: 1, max: 100000 });
+            const maxVal = faker.number.int({ min: 1, max: 100000 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'NumberMaxPos';
             payloadData = attributePayloads.createNumberAttributePayload(attributeNameCode);
@@ -2288,26 +2288,26 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.max).to.be.eq(maxVal);
-            expect(res.body.attribute.min).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.max).to.be.eq(maxVal);
+            expect(res.body.min).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - call fails when Min value is sent higher than Max value', async function () {
@@ -2337,7 +2337,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         });
 
         it('Create Attribute - call fails when decimal value is sent for Min parameter for Number type', async function () {
-            const minVal = faker.datatype.number({ min: 1, max: 100000, precision: 0.01 });
+            const minVal = faker.number.int({ min: 1, max: 100000, precision: 0.01 });
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createNumberAttributePayload(attributeNameCode);
             payload = JSON.stringify({
@@ -2362,7 +2362,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         });
 
         it('Create Attribute - call fails when decimal value is sent for Max parameter for Number type', async function () {
-            const maxVal = faker.datatype.number({ min: 1, max: 100000, precision: 0.01 });
+            const maxVal = faker.number.int({ min: 1, max: 100000, precision: 0.01 });
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createNumberAttributePayload(attributeNameCode);
             payload = JSON.stringify({
@@ -2393,7 +2393,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "min": faker.random.alpha(5)
+                "min": faker.string.alpha(5)
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -2417,7 +2417,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "max": faker.random.alpha(5)
+                "max": faker.string.alpha(5)
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -2468,31 +2468,31 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, "DecimalRandomMax", payloadData.max);
             FO.appendToFile(attributeDetailsFile, "DecimalRandomMin", payloadData.min);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.max).to.be.eq(payloadData.max);
-            expect(res.body.attribute.min).to.be.eq(payloadData.min);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.max).to.be.eq(payloadData.max);
+            expect(res.body.min).to.be.eq(payloadData.min);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
         });
 
         it('Create Attribute - Decimal Attribute is created sucessfully, only Name, Code and Type values are sent', async function () {
@@ -2515,26 +2515,26 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.max).to.be.null;
-            expect(res.body.attribute.min).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.max).to.be.null;
+            expect(res.body.min).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Decimal Attribute is created sucessfully, Value for only Max parameter is sent', async function () {
@@ -2558,27 +2558,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, 'DecimalMaxValue', payloadData.max);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.max).to.be.eq(payloadData.max);
-            expect(res.body.attribute.min).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.max).to.be.eq(payloadData.max);
+            expect(res.body.min).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Decimal Attribute is created sucessfully, Value for only Min parameter is sent', async function () {
@@ -2602,31 +2602,31 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, 'DecimalMinValue', payloadData.min);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.min).to.be.eq(payloadData.min);
-            expect(res.body.attribute.max).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.min).to.be.eq(payloadData.min);
+            expect(res.body.max).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Decimal Attribute is created sucessfully, Value for Min parameter is sent as negative decimal value', async function () {
-            const minVal = faker.datatype.number({ min: -100000, max: -1, precision: 0.01 });
+            const minVal = faker.number.int({ min: -100000, max: -1, precision: 0.01 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'DecimalMinNeg';
             payloadData = attributePayloads.createDecimalAttributePayload(attributeNameCode);
@@ -2647,31 +2647,31 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, "DecimalMinNegValue", minVal);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.min).to.be.eq(minVal);
-            expect(res.body.attribute.max).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.min).to.be.eq(minVal);
+            expect(res.body.max).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Decimal Attribute is created sucessfully, Value for Min parameter is sent as positive integer', async function () {
-            const minVal = faker.datatype.number({ min: 1, max: 100000, precision: 0.01 });
+            const minVal = faker.number.int({ min: 1, max: 100000, precision: 0.01 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'DecimalMinPos';
             payloadData = attributePayloads.createDecimalAttributePayload(attributeNameCode);
@@ -2692,31 +2692,31 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, "DecimalMinPosValue", minVal);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.min).to.be.eq(minVal);
-            expect(res.body.attribute.max).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.min).to.be.eq(minVal);
+            expect(res.body.max).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Decimal Attribute is created sucessfully, Value for Max parameter is sent as negative decimal value', async function () {
-            const maxVal = faker.datatype.number({ min: -100000, max: -1, precision: 0.01 });
+            const maxVal = faker.number.int({ min: -100000, max: -1, precision: 0.01 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'DecimalMaxNeg';
             payloadData = attributePayloads.createDecimalAttributePayload(attributeNameCode);
@@ -2737,31 +2737,31 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, "DecimalMaxNegValue", maxVal);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.max).to.be.eq(maxVal);
-            expect(res.body.attribute.min).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.max).to.be.eq(maxVal);
+            expect(res.body.min).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Decimal Attribute is created sucessfully, Value for Max parameter is sent as positive decimal Value', async function () {
-            const maxVal = faker.datatype.number({ min: 1, max: 100000, precision: 0.01 });
+            const maxVal = faker.number.int({ min: 1, max: 100000, precision: 0.01 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'DecimalMaxPos';
             payloadData = attributePayloads.createDecimalAttributePayload(attributeNameCode);
@@ -2782,31 +2782,31 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, "DecimalMaxPosValue", maxVal);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.max).to.be.eq(maxVal);
-            expect(res.body.attribute.min).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.max).to.be.eq(maxVal);
+            expect(res.body.min).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Decimal Attribute is created sucessfully, Value for Min parameter is sent as integer value', async function () {
-            const minVal = faker.datatype.number({ min: -100000, max: 100000 });
+            const minVal = faker.number.int({ min: -100000, max: 100000 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'DecimalMinInt';
             payloadData = attributePayloads.createDecimalAttributePayload(attributeNameCode);
@@ -2827,31 +2827,31 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, "DecimalMinIntValue", minVal);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.min).to.be.eq(minVal);
-            expect(res.body.attribute.max).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.min).to.be.eq(minVal);
+            expect(res.body.max).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - Decimal Attribute is created sucessfully, Value for Max parameter is sent as integer value', async function () {
-            const maxVal = faker.datatype.number({ min: -100000, max: 100000 });
+            const maxVal = faker.number.int({ min: -100000, max: 100000 });
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'DecimalMaxInt';
             payloadData = attributePayloads.createDecimalAttributePayload(attributeNameCode);
@@ -2872,27 +2872,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             FO.appendToFile(attributeDetailsFile, "DecimalMaxIntValue", maxVal);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successNumDecAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.max).to.be.eq(maxVal);
-            expect(res.body.attribute.min).to.be.null;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.max).to.be.eq(maxVal);
+            expect(res.body.min).to.be.null;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - call fails when Min value is sent higher than Max value for Decimal attribute type', async function () {
@@ -2928,7 +2928,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "min": faker.random.alpha(5)
+                "min": faker.string.alpha(5)
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -2952,7 +2952,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "max": faker.random.alpha(5)
+                "max": faker.string.alpha(5)
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -3004,30 +3004,30 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successListAttributeSchema);
-            expect(res.body.attribute.formatting).to.be.eq(payloadData.formatting);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.allowed_values.length).to.be.eq(payloadData.allowed_values.length);
-            expect(res.body.attribute.allow_multiple).to.be.eq(payloadData.allow_multiple);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
-            expect(compareArrayData(res.body.attribute.allowed_values, payloadData.allowed_values)).to.be.true;
+            expect(res.body.formatting).to.be.eq(payloadData.formatting);
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.allowed_values.length).to.be.eq(payloadData.allowed_values.length);
+            expect(res.body.allow_multiple).to.be.eq(payloadData.allow_multiple);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
+            expect(compareArrayData(res.body.allowed_values, payloadData.allowed_values)).to.be.true;
         });
 
         it('Create Attribute - List Attribute is created sucessfully when only Name, Code and Type values are sent ', async function () {
@@ -3050,27 +3050,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successListAttributeSchema);
-            expect(res.body.attribute.formatting).to.be.eq("None");
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.tags.length).to.be.eq(0);
-            expect(res.body.attribute.allowed_values.length).to.be.eq(0);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.formatting).to.be.eq("None");
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.tags.length).to.be.eq(0);
+            expect(res.body.allowed_values.length).to.be.eq(0);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - List Attribute is created sucessfully, Formatting is send as Uppercase', async function () {
@@ -3094,27 +3094,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successListAttributeSchema);
-            expect(res.body.attribute.formatting).to.be.eq("Uppercase");
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.tags.length).to.be.eq(0);
-            expect(res.body.attribute.allowed_values.length).to.be.eq(0);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.formatting).to.be.eq("Uppercase");
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.tags.length).to.be.eq(0);
+            expect(res.body.allowed_values.length).to.be.eq(0);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - List Attribute is created sucessfully, Formatting is send as Lowercase', async function () {
@@ -3138,27 +3138,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successListAttributeSchema);
-            expect(res.body.attribute.formatting).to.be.eq("Lowercase");
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.tags.length).to.be.eq(0);
-            expect(res.body.attribute.allowed_values.length).to.be.eq(0);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.formatting).to.be.eq("Lowercase");
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.tags.length).to.be.eq(0);
+            expect(res.body.allowed_values.length).to.be.eq(0);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - List Attribute is created sucessfully, Formatting is send as None', async function () {
@@ -3182,27 +3182,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successListAttributeSchema);
-            expect(res.body.attribute.formatting).to.be.eq("None");
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.tags.length).to.be.eq(0);
-            expect(res.body.attribute.allowed_values.length).to.be.eq(0);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.formatting).to.be.eq("None");
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.tags.length).to.be.eq(0);
+            expect(res.body.allowed_values.length).to.be.eq(0);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - List Attribute is created sucessfully, allow_multiple is send as true', async function () {
@@ -3226,27 +3226,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successListAttributeSchema);
-            expect(res.body.attribute.formatting).to.be.eq("None");
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.tags.length).to.be.eq(0);
-            expect(res.body.attribute.allowed_values.length).to.be.eq(0);
-            expect(res.body.attribute.allow_multiple).to.be.true;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.formatting).to.be.eq("None");
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.tags.length).to.be.eq(0);
+            expect(res.body.allowed_values.length).to.be.eq(0);
+            expect(res.body.allow_multiple).to.be.true;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - List Attribute is created sucessfully, allow_multiple is send as false', async function () {
@@ -3270,27 +3270,27 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successListAttributeSchema);
-            expect(res.body.attribute.formatting).to.be.eq("None");
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.tags.length).to.be.eq(0);
-            expect(res.body.attribute.allowed_values.length).to.be.eq(0);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.formatting).to.be.eq("None");
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.tags.length).to.be.eq(0);
+            expect(res.body.allowed_values.length).to.be.eq(0);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute - call fails when allow_multiple is send as random string for List Attribute', async function () {
@@ -3301,7 +3301,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "allow_multiple": faker.random.alphaNumeric(10)
+                "allow_multiple": faker.string.alphaNumeric(10)
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -3320,7 +3320,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
 
         it('Create Attribute - call fails when random string is sent in Formatting for List type attribute', async function () {
             endpoint = creatAttribute(orgId);
-            const randomString = faker.random.alphaNumeric(10);
+            const randomString = faker.string.alphaNumeric(10);
             payloadData = attributePayloads.createListAttributePayload(attributeNameCode);
             payload = JSON.stringify({
                 "name": payloadData.name,
@@ -3378,29 +3378,29 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(payloadData.allowed_extensions.length);
-            expect(res.body.attribute.allow_multiple).to.be.eq(payloadData.allow_multiple);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
-            expect(compareArrayData(res.body.attribute.allowed_extensions, payloadData.allowed_extensions)).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.allowed_extensions.length).to.be.eq(payloadData.allowed_extensions.length);
+            expect(res.body.allow_multiple).to.be.eq(payloadData.allow_multiple);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
+            expect(compareArrayData(res.body.allowed_extensions, payloadData.allowed_extensions)).to.be.true;
         });
 
         it('File Attribute is created sucessfully, only Name, Code and Type values are sent', async function () {
@@ -3423,25 +3423,25 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('File Attribute is created sucessfully, Allow Multiple is sent as true', async function () {
@@ -3465,25 +3465,25 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.allow_multiple).to.be.true;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.allow_multiple).to.be.true;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('File Attribute is created sucessfully, Allow Multiple is sent as false', async function () {
@@ -3507,25 +3507,25 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('File Attribute is created sucessfully, Max Size parameter is sent', async function () {
@@ -3549,26 +3549,26 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.max_size).to.be.eq(payloadData.max_size);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.max_size).to.be.eq(payloadData.max_size);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Attribute fails, Allow Multiple is sent as random string for File type', async function () {
@@ -3579,7 +3579,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "allow_multiple": faker.random.alpha(10)
+                "allow_multiple": faker.string.alpha(10)
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -3597,7 +3597,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         });
 
         it('Create Attribute fails, Max Size is sent as negative value for File type', async function () {
-            const size = faker.datatype.number({ min: -200, max: -1 }),
+            const size = faker.number.int({ min: -200, max: -1 }),
                 endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createFileAttributePayload(attributeNameCode);
             payload = JSON.stringify({
@@ -3648,7 +3648,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Create Attribute fails, Max Size is sent as a decimal value for File type', async function () {
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createFileAttributePayload(attributeNameCode);
-            const mSize = faker.datatype.number({ min: 1, max: 10000, precision: 0.01 });
+            const mSize = faker.number.int({ min: 1, max: 10000, precision: 0.01 });
             payload = JSON.stringify({
                 "name": payloadData.name,
                 "code": payloadData.code,
@@ -3677,7 +3677,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "max_size": faker.random.alpha(10)
+                "max_size": faker.string.alpha(10)
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -3730,31 +3730,31 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.max_size).to.be.eq(payloadData.max_size);
-            expect(res.body.attribute.media_type).to.be.eq(payloadData.media_type);
-            expect(res.body.attribute.description).to.be.eq(payloadData.description);
-            expect(res.body.attribute.tags.length).to.be.eq(payloadData.tags.length);
-            expect(res.body.attribute.allow_multiple).to.be.eq(payloadData.allow_multiple);
-            expect(res.body.attribute.vms_visible).to.be.eq(payloadData.vms_visible);
-            expect(res.body.attribute.vms_editable).to.be.eq(payloadData.vms_editable);
-            expect(res.body.attribute.store_filter).to.be.eq(payloadData.store_filter);
-            expect(res.body.attribute.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
-            expect(res.body.attribute.store_display_plp).to.be.eq(payloadData.store_display_plp);
-            expect(res.body.attribute.store_search).to.be.eq(payloadData.store_search);
-            expect(res.body.attribute.store_compare).to.be.eq(payloadData.store_compare);
-            expect(res.body.attribute.active).to.be.eq(payloadData.active);
-            expect(res.body.attribute.mandatory).to.be.eq(payloadData.mandatory);
-            expect(res.body.attribute.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(payloadData.allowed_extensions.length);
-            expect(compareArrayData(res.body.attribute.tags, payloadData.tags)).to.be.true;
-            expect(compareArrayData(res.body.attribute.allowed_extensions, payloadData.allowed_extensions)).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.max_size).to.be.eq(payloadData.max_size);
+            expect(res.body.media_type).to.be.eq(payloadData.media_type);
+            expect(res.body.description).to.be.eq(payloadData.description);
+            expect(res.body.tags.length).to.be.eq(payloadData.tags.length);
+            expect(res.body.allow_multiple).to.be.eq(payloadData.allow_multiple);
+            expect(res.body.vms_visible).to.be.eq(payloadData.vms_visible);
+            expect(res.body.vms_editable).to.be.eq(payloadData.vms_editable);
+            expect(res.body.store_filter).to.be.eq(payloadData.store_filter);
+            expect(res.body.store_display_pdp).to.be.eq(payloadData.store_display_pdp);
+            expect(res.body.store_display_plp).to.be.eq(payloadData.store_display_plp);
+            expect(res.body.store_search).to.be.eq(payloadData.store_search);
+            expect(res.body.store_compare).to.be.eq(payloadData.store_compare);
+            expect(res.body.active).to.be.eq(payloadData.active);
+            expect(res.body.mandatory).to.be.eq(payloadData.mandatory);
+            expect(res.body.auto_sync_to_prod).to.be.eq(payloadData.auto_sync_to_prod);
+            expect(res.body.allowed_extensions.length).to.be.eq(payloadData.allowed_extensions.length);
+            expect(compareArrayData(res.body.tags, payloadData.tags)).to.be.true;
+            expect(compareArrayData(res.body.allowed_extensions, payloadData.allowed_extensions)).to.be.true;
         });
 
         it('Media Attribute is created sucessfully, only Name, Code and Type values are sent', async function () {
@@ -3777,25 +3777,25 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Media Attribute is created sucessfully, Allow Multiple is sent as true', async function () {
@@ -3819,25 +3819,25 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.allow_multiple).to.be.true;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.allow_multiple).to.be.true;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Media Attribute is created sucessfully, Allow Multiple is sent as false', async function () {
@@ -3861,25 +3861,25 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Media Attribute is created sucessfully, Max Size parameter is sent', async function () {
@@ -3903,26 +3903,26 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.max_size).to.be.eq(payloadData.max_size);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.max_size).to.be.eq(payloadData.max_size);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Media Attribute is created sucessfully, Allow Multiple is sent as random string', async function () {
@@ -3933,7 +3933,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 "name": payloadData.name,
                 "code": payloadData.code,
                 "type": payloadData.type,
-                "allow_multiple": faker.random.alpha(10)
+                "allow_multiple": faker.string.alpha(10)
             });
             signed_headers = getSignedRequestHeaders("POST", baseUrl, endpoint, payload, {});
             headers = {
@@ -3975,7 +3975,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         });
 
         it('Create Media Attribute calls fails, Max Size parameter is sent as decimal value', async function () {
-            const mSize = faker.datatype.number({ min: 1, max: 10000, precision: 0.01 });
+            const mSize = faker.number.int({ min: 1, max: 10000, precision: 0.01 });
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createMediaAttributePayload(attributeNameCode);
             payload = JSON.stringify({
@@ -4000,7 +4000,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         });
 
         it('Create Media Attribute calls fails, Max Size parameter is sent as negative value', async function () {
-            const mSize = faker.datatype.number({ min: -10000, max: -1 });
+            const mSize = faker.number.int({ min: -10000, max: -1 });
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createMediaAttributePayload(attributeNameCode);
             payload = JSON.stringify({
@@ -4025,7 +4025,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         });
 
         it('Create Media Attribute calls fails, Max Size parameter is sent as string value', async function () {
-            const mSize = faker.random.alpha(10);
+            const mSize = faker.string.alpha(10);
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createMediaAttributePayload(attributeNameCode);
             payload = JSON.stringify({
@@ -4050,7 +4050,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         });
 
         it('Create Attribute calls fails, type parameter is sent as a random string value', async function () {
-            const typeData = faker.random.alpha(10);
+            const typeData = faker.string.alpha(10);
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createMediaAttributePayload(attributeNameCode);
             payload = JSON.stringify({
@@ -4077,7 +4077,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             const fileAllowedValues = ["jpeg", "png", "gif", "webp", "jfif", "mp4", "mov"];
             const selMediaType = "image";
             const fileAllowedArray = [];
-            const fileAllowedArraySize = faker.datatype.number({ min: 1, max: 5 });
+            const fileAllowedArraySize = faker.number.int({ min: 1, max: 5 });
             for (let i = 0; i < fileAllowedArraySize; i++) {
                 fileAllowedArray.push(fileAllowedValues[i]);
             }
@@ -4102,28 +4102,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a image and allowed values contain jpeg', async function () {
@@ -4150,28 +4150,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a image and allowed values contain png', async function () {
@@ -4198,28 +4198,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a image and allowed values contain gif', async function () {
@@ -4246,28 +4246,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a image and allowed values contain webp', async function () {
@@ -4294,28 +4294,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a image and allowed values contain jfif', async function () {
@@ -4342,28 +4342,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a image and allowed values contain all allowed types', async function () {
@@ -4390,35 +4390,35 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a image and allowed values contain valid image type', async function () {
             const selMediaType = "image";
             const fileAllowedArrayValues = ["jfif", "jpeg", "png", "gif", "webp"];
             const fileAllowedArray = [];
-            const fileAllowedArraySize = faker.datatype.number({ min: 1, max: 5 });
+            const fileAllowedArraySize = faker.number.int({ min: 1, max: 5 });
             for (let i = 0; i < fileAllowedArraySize; i++) {
                 fileAllowedArray.push(fileAllowedArrayValues[i]);
             }
@@ -4443,33 +4443,33 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a image and allowed values contain random string', async function () {
             const selMediaType = "image";
-            const fileAllowedArray = [faker.random.alpha(10)];
+            const fileAllowedArray = [faker.string.alpha(10)];
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'invalid';
             payloadData = attributePayloads.createMediaAttributePayload(attributeNameCode);
@@ -4499,7 +4499,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             const fileAllowedValues = ["jpeg", "png", "gif", "webp", "jfif", "mp4", "mov"];
             const selMediaType = "video";
             const fileAllowedArray = [];
-            const fileAllowedArraySize = faker.datatype.number({ min: 1, max: 2 });
+            const fileAllowedArraySize = faker.number.int({ min: 1, max: 2 });
             for (let i = 0; i < fileAllowedArraySize; i++) {
                 fileAllowedArray.push(fileAllowedValues[i + 5]);
             }
@@ -4524,28 +4524,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a video and allowed extension is sent as mov', async function () {
@@ -4572,28 +4572,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a video and allowed extension is sent as mp4', async function () {
@@ -4620,28 +4620,28 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a video and allowed extension is sent as mov and mp4', async function () {
@@ -4668,35 +4668,35 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is successfull, media_type parameter is sent as a video and allowed extension have valid values', async function () {
             const selMediaType = "video";
             const fileAllowedArrayValues = ["mp4", "mov"];
             const fileAllowedArray = [];
-            const fileAllowedArraySize = faker.datatype.number({ min: 1, max: 2 });
+            const fileAllowedArraySize = faker.number.int({ min: 1, max: 2 });
             for (let i = 0; i < fileAllowedArraySize; i++) {
                 fileAllowedArray.push(fileAllowedArrayValues[i]);
             }
@@ -4721,33 +4721,33 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
                 .post(endpoint)
                 .set(headers)
                 .send(payload);
-            tempVarId = await res.body.attribute._id;
+            tempVarId = await res.body._id;
             FO.appendToFile(attributeDetailsFile, attributeNameCode, tempVarId);
             expect(res.statusCode).to.be.eq(201);
             expect(res.body).to.be.jsonSchema(schemas.successFileMedAttributeSchema);
-            expect(res.body.attribute.x_org_id).to.be.eq(orgId);
-            expect(res.body.attribute.name).to.be.eq(payloadData.name);
-            expect(res.body.attribute.code).to.be.eq(payloadData.code);
-            expect(res.body.attribute.type).to.be.eq(payloadData.type);
-            expect(res.body.attribute.media_type).to.be.eq(selMediaType);
-            expect(res.body.attribute.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
-            expect(compareArrayData(res.body.attribute.allowed_extensions, fileAllowedArray)).to.be.true;
-            expect(res.body.attribute.allow_multiple).to.be.false;
-            expect(res.body.attribute.vms_visible).to.be.false;
-            expect(res.body.attribute.vms_editable).to.be.false;
-            expect(res.body.attribute.store_filter).to.be.false;
-            expect(res.body.attribute.store_display_pdp).to.be.false;
-            expect(res.body.attribute.store_display_plp).to.be.false;
-            expect(res.body.attribute.store_search).to.be.false;
-            expect(res.body.attribute.store_compare).to.be.false;
-            expect(res.body.attribute.active).to.be.true;
-            expect(res.body.attribute.mandatory).to.be.true;
-            expect(res.body.attribute.auto_sync_to_prod).to.be.true;
+            expect(res.body.x_org_id).to.be.eq(orgId);
+            expect(res.body.name).to.be.eq(payloadData.name);
+            expect(res.body.code).to.be.eq(payloadData.code);
+            expect(res.body.type).to.be.eq(payloadData.type);
+            expect(res.body.media_type).to.be.eq(selMediaType);
+            expect(res.body.allowed_extensions.length).to.be.eq(fileAllowedArray.length);
+            expect(compareArrayData(res.body.allowed_extensions, fileAllowedArray)).to.be.true;
+            expect(res.body.allow_multiple).to.be.false;
+            expect(res.body.vms_visible).to.be.false;
+            expect(res.body.vms_editable).to.be.false;
+            expect(res.body.store_filter).to.be.false;
+            expect(res.body.store_display_pdp).to.be.false;
+            expect(res.body.store_display_plp).to.be.false;
+            expect(res.body.store_search).to.be.false;
+            expect(res.body.store_compare).to.be.false;
+            expect(res.body.active).to.be.true;
+            expect(res.body.mandatory).to.be.true;
+            expect(res.body.auto_sync_to_prod).to.be.true;
         });
 
         it('Create Media Attribute is not successfull, media_type parameter is sent as a video and allowed values contain random string', async function () {
             const selMediaType = "video";
-            const fileAllowedArray = [faker.random.alpha(10)];
+            const fileAllowedArray = [faker.string.alpha(10)];
             endpoint = creatAttribute(orgId);
             attributeNameCode = 'invalid';
             payloadData = attributePayloads.createMediaAttributePayload(attributeNameCode);
@@ -4774,8 +4774,8 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         });
 
         it('Create Media Attribute is not successfull, media_type parameter is sent as random string', async function () {
-            const selMediaType = faker.random.alpha(10);
-            const fileAllowedArray = [faker.random.alpha(10)];
+            const selMediaType = faker.string.alpha(10);
+            const fileAllowedArray = [faker.string.alpha(10)];
             endpoint = creatAttribute(orgId);
             payloadData = attributePayloads.createMediaAttributePayload(attributeNameCode);
             payload = JSON.stringify({
@@ -4802,7 +4802,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
 
     });
 
-    describe('Get Attributes @cdm @attributes', async function () {
+    describe('Get Attributes @cc_regression @attributes', async function () {
 
         describe('Get All attributes test cases', async function () {
 
@@ -5499,7 +5499,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         });
     });
 
-    describe('Update Specific Attributes @cdm @attributes', async function () {
+    describe('Update Specific Attributes @cc_regression @attributes', async function () {
 
         it('Update Specific attribute, user is not logged in', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ShortTextRandom');
@@ -5774,7 +5774,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating max parameter as positive integer for Number Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberMaxNeg');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const maxVal = faker.datatype.number({ min: 0, max: 100000 });
+            const maxVal = faker.number.int({ min: 0, max: 100000 });
             payload = {
                 max: maxVal
             }
@@ -5798,7 +5798,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating max parameter as negative integer for Number Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberMaxNeg');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const maxVal = faker.datatype.number({ min: -100000, max: -1 });
+            const maxVal = faker.number.int({ min: -100000, max: -1 });
             payload = {
                 max: maxVal
             }
@@ -5823,7 +5823,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberMin');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             const minVal = FO.getValueFromFile(attributeDetailsFile, 'NumberMinValue');
-            const maxVal = faker.datatype.number({ min: minVal, max: 100000 });
+            const maxVal = faker.number.int({ min: minVal, max: 100000 });
             payload = {
                 max: maxVal
             }
@@ -5871,7 +5871,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating min parameter as positive integer for Number Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberMinNeg');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const minVal = faker.datatype.number({ min: 0, max: 100000 });
+            const minVal = faker.number.int({ min: 0, max: 100000 });
             payload = {
                 min: minVal
             }
@@ -5895,7 +5895,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating min parameter as negative integer for Number Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberMinNeg');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const minVal = faker.datatype.number({ min: -100000, max: -1 });
+            const minVal = faker.number.int({ min: -100000, max: -1 });
             payload = {
                 min: minVal
             }
@@ -5920,7 +5920,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberMax');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             const maxVal = FO.getValueFromFile(attributeDetailsFile, 'NumberMaxValue');
-            const minVal = faker.datatype.number({ min: -100000, max: maxVal });
+            const minVal = faker.number.int({ min: -100000, max: maxVal });
             payload = {
                 min: minVal
             }
@@ -6014,7 +6014,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update Call fails when decimal value is sent for Max parameter for Number Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const maxVal = faker.datatype.number({ min: -100000, max: 100000, precision: 0.001 });
+            const maxVal = faker.number.int({ min: -100000, max: 100000, precision: 0.001 });
             payload = {
                 max: maxVal
             }
@@ -6037,7 +6037,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update Call fails when decimal value is sent for Min parameter for Number Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const minVal = faker.datatype.number({ min: -100000, max: 100000, precision: 0.001 });
+            const minVal = faker.number.int({ min: -100000, max: 100000, precision: 0.001 });
             payload = {
                 min: minVal
             }
@@ -6060,7 +6060,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update Call fails when string is sent for Max parameter for Number Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const maxVal = faker.random.alpha(10);
+            const maxVal = faker.string.alpha(10);
             payload = {
                 max: maxVal
             }
@@ -6083,7 +6083,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update Call fails when string is sent for Min parameter for Number Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const minVal = faker.random.alpha(10);
+            const minVal = faker.string.alpha(10);
             payload = {
                 min: minVal
             }
@@ -6134,7 +6134,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating max parameter as positive value for Decimal Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DecimalMaxNeg');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const maxVal = faker.datatype.number({ min: 0, max: 100000, precision: 0.001 });
+            const maxVal = faker.number.int({ min: 0, max: 100000, precision: 0.001 });
             payload = {
                 max: maxVal
             }
@@ -6158,7 +6158,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating max parameter as negative value for Decimal Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DecimalMaxNeg');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const maxVal = faker.datatype.number({ min: -100000, max: -1, precision: 0.001 });
+            const maxVal = faker.number.int({ min: -100000, max: -1, precision: 0.001 });
             payload = {
                 max: maxVal
             }
@@ -6183,7 +6183,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DecimalMin');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             const minVal = FO.getValueFromFile(attributeDetailsFile, 'DecimalMinValue');
-            const maxVal = faker.datatype.number({ min: minVal, max: 100000, precision: 0.001 });
+            const maxVal = faker.number.int({ min: minVal, max: 100000, precision: 0.001 });
             payload = {
                 max: maxVal
             }
@@ -6231,7 +6231,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating min parameter as positive value for Decimal Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DecimalMinNeg');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const minVal = faker.datatype.number({ min: 0, max: 100000, precision: 0.001 });
+            const minVal = faker.number.int({ min: 0, max: 100000, precision: 0.001 });
             payload = {
                 min: minVal
             }
@@ -6255,7 +6255,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating min parameter as negative value for Decimal Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DecimalMinNeg');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const minVal = faker.datatype.number({ min: -100000, max: -1, precision: 0.001 });
+            const minVal = faker.number.int({ min: -100000, max: -1, precision: 0.001 });
             payload = {
                 min: minVal
             }
@@ -6280,7 +6280,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DecimalMax');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             const maxVal = FO.getValueFromFile(attributeDetailsFile, 'DecimalMaxValue');
-            const minVal = faker.datatype.number({ min: -100000, max: maxVal, precision: 0.001 });
+            const minVal = faker.number.int({ min: -100000, max: maxVal, precision: 0.001 });
             payload = {
                 min: minVal
             }
@@ -6374,7 +6374,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update Call fails when string is sent for Max parameter for Decimal Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DecimalRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const maxVal = faker.random.alpha(10);
+            const maxVal = faker.string.alpha(10);
             payload = {
                 max: maxVal
             }
@@ -6397,7 +6397,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update Call fails when string is sent for Min parameter for Decimal Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DecimalRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const minVal = faker.random.alpha(10);
+            const minVal = faker.string.alpha(10);
             payload = {
                 min: minVal
             }
@@ -6496,7 +6496,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when number is send as allow_multiple parameter for File Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'FileAMFalse');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_allow_multiple = Number(faker.random.numeric(4));
+            const invalid_allow_multiple = Number(faker.number.int(4));
             payload = {
                 allow_multiple: invalid_allow_multiple
             }
@@ -6519,7 +6519,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when string is send as allow_multiple parameter for File Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'FileAMFalse');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_allow_multiple = faker.random.alpha(10);
+            const invalid_allow_multiple = faker.string.alpha(10);
             payload = {
                 allow_multiple: invalid_allow_multiple
             }
@@ -6589,7 +6589,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when negative number is send for max_size parameter for File Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'FileMSize');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_max_size = faker.datatype.number({ min: -10000, max: -1 });
+            const invalid_max_size = faker.number.int({ min: -10000, max: -1 });
             payload = {
                 max_size: invalid_max_size
             }
@@ -6612,7 +6612,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when decimal value is send for max_size parameter for File Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'FileMSize');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_max_size = faker.datatype.number({ min: 1, max: 10000, precision: 0.01 });
+            const invalid_max_size = faker.number.int({ min: 1, max: 10000, precision: 0.01 });
             payload = {
                 max_size: invalid_max_size
             }
@@ -6635,7 +6635,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when string is send for max_size parameter for File Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'FileMSize');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_max_size = faker.random.alpha(10)
+            const invalid_max_size = faker.string.alpha(10)
             payload = {
                 max_size: invalid_max_size
             }
@@ -6708,7 +6708,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createFileAttributePayload('FileMSizeUp');
             let invalid_allowed_extensions = payloadData.allowed_extensions;
-            invalid_allowed_extensions.push(faker.random.alpha(8));
+            invalid_allowed_extensions.push(faker.string.alpha(8));
             payload = {
                 allowed_extensions: invalid_allowed_extensions
             }
@@ -6761,7 +6761,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             const fileAllowedArrayValues = ["mp4", "mov"];
             const fileAllowedArray = [];
-            const fileAllowedArraySize = faker.datatype.number({ min: 1, max: 2 });
+            const fileAllowedArraySize = faker.number.int({ min: 1, max: 2 });
             for (let i = 0; i < fileAllowedArraySize; i++) {
                 fileAllowedArray.push(fileAllowedArrayValues[i]);
             }
@@ -6792,7 +6792,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             const fileAllowedArrayValues = ["jpeg", "png", "gif", "webp", "jfif"];
             const fileAllowedArray = [];
-            const fileAllowedArraySize = faker.datatype.number({ min: 1, max: 5 });
+            const fileAllowedArraySize = faker.number.int({ min: 1, max: 5 });
             for (let i = 0; i < fileAllowedArraySize; i++) {
                 fileAllowedArray.push(fileAllowedArrayValues[i]);
             }
@@ -6821,7 +6821,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when random string is sent for media_type parameter for Media Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'MediaImageRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_media_type = faker.random.alpha(10);
+            const invalid_media_type = faker.string.alpha(10);
             payload = {
                 "media_type": invalid_media_type
             }
@@ -6890,7 +6890,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when random string is sent for allow_multiple parameter for Media Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'MediaAMTrue');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_allow_multiple = faker.random.alpha(10);
+            const invalid_allow_multiple = faker.string.alpha(10);
             payload = {
                 allow_multiple: invalid_allow_multiple
             }
@@ -6913,7 +6913,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when number is sent for allow_multiple parameter for Media Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'MediaAMTrue');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_allow_multiple = Number(faker.random.numeric(5));
+            const invalid_allow_multiple = Number(faker.number.int(5));
             payload = {
                 allow_multiple: invalid_allow_multiple
             }
@@ -6983,7 +6983,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when negative number is send for max_size parameter for Media Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'MediaMSize');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_max_size = faker.datatype.number({ min: -10000, max: -1 });
+            const invalid_max_size = faker.number.int({ min: -10000, max: -1 });
             payload = {
                 max_size: invalid_max_size
             }
@@ -7006,7 +7006,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when decimal value is send for max_size parameter for Media Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'MediaMSize');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_max_size = faker.datatype.number({ min: 1, max: 10000, precision: 0.01 });
+            const invalid_max_size = faker.number.int({ min: 1, max: 10000, precision: 0.01 });
             payload = {
                 max_size: invalid_max_size
             }
@@ -7029,7 +7029,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Update call fails when string is send for max_size parameter for Media Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'MediaMSize');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_max_size = faker.random.alpha(10);
+            const invalid_max_size = faker.string.alpha(10);
             payload = {
                 max_size: invalid_max_size
             }
@@ -7240,7 +7240,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating call fails when formatting value is sent as random string for List Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ListNone');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_formatting = faker.random.alpha(5);
+            const invalid_formatting = faker.string.alpha(5);
             payload = {
                 formatting: invalid_formatting
             }
@@ -7263,7 +7263,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating call fails when formatting value is sent as number for List Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ListNone');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_formatting = Number(faker.random.numeric(5));
+            const invalid_formatting = Number(faker.number.int(5));
             payload = {
                 formatting: invalid_formatting
             }
@@ -7356,7 +7356,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating call fails when allow_multiple value is sent as number for List Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ListNone');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_allow_multiple = Number(faker.random.numeric(5));
+            const invalid_allow_multiple = Number(faker.number.int(5));
             payload = {
                 allow_multiple: invalid_allow_multiple
             }
@@ -7379,7 +7379,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
         it('Update Specific Attributes - Updating call fails when allow_multiple value is sent as random string for List Attribute', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ListNone');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
-            const invalid_allow_multiple = faker.random.alpha(10);
+            const invalid_allow_multiple = faker.string.alpha(10);
             payload = {
                 allow_multiple: invalid_allow_multiple
             }
@@ -7511,7 +7511,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ParagraphRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createParagraphAttributePayload('ParagraphRandomUp');
-            const invalid_limit = faker.datatype.number({ min: -100000, max: 100000, precision: 0.01 });
+            const invalid_limit = faker.number.int({ min: -100000, max: 100000, precision: 0.01 });
             payload = {
                 limit: invalid_limit
             }
@@ -7535,7 +7535,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ParagraphRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createParagraphAttributePayload('ParagraphRandomUp');
-            const invalid_limit = faker.random.alpha(10);
+            const invalid_limit = faker.string.alpha(10);
             payload = {
                 limit: invalid_limit
             }
@@ -7745,7 +7745,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ShortTextRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createShortTextAttributePayload('ShortTextRandomUp');
-            const invalid_formatting = faker.random.alpha(10);
+            const invalid_formatting = faker.string.alpha(10);
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -7853,7 +7853,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ShortTextRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createShortTextAttributePayload('ShortTextRandomUp');
-            const invalid_formatting = Number(faker.random.numeric(5));
+            const invalid_formatting = Number(faker.number.int(5));
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -7880,7 +7880,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ShortTextRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createShortTextAttributePayload('ShortTextRandomUp');
-            const invalid_vms_visible = faker.random.alpha(7);
+            const invalid_vms_visible = faker.string.alpha(7);
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -7907,7 +7907,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ShortTextRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createShortTextAttributePayload('ShortTextRandomUp');
-            const invalid_vms_visible = Number(faker.random.numeric(5));
+            const invalid_vms_visible = Number(faker.number.int(5));
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -7934,7 +7934,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ParagraphRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createParagraphAttributePayload('ParagraphRandomUp');
-            const invalid_vms_editable = faker.random.alpha(7);
+            const invalid_vms_editable = faker.string.alpha(7);
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -7961,7 +7961,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ParagraphRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createParagraphAttributePayload('ParagraphRandomUp');
-            const invalid_vms_editable = Number(faker.random.numeric(5));
+            const invalid_vms_editable = Number(faker.number.int(5));
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -7988,7 +7988,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'HTMLRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.attributePayloadBasicType('HTMLRandomUp');
-            const invalid_store_filter = faker.random.alpha(7);
+            const invalid_store_filter = faker.string.alpha(7);
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8015,7 +8015,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'HTMLRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.attributePayloadBasicType('HTMLRandomUp');
-            const invalid_store_filter = Number(faker.random.numeric(5));
+            const invalid_store_filter = Number(faker.number.int(5));
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8042,7 +8042,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'URLRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.attributePayloadBasicType('URLRandomUp');
-            const invalid_store_display_plp = faker.random.alpha(7);
+            const invalid_store_display_plp = faker.string.alpha(7);
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8069,7 +8069,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'URLRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.attributePayloadBasicType('URLRandomUp');
-            const invalid_store_display_plp = Number(faker.random.numeric(5));
+            const invalid_store_display_plp = Number(faker.number.int(5));
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8096,7 +8096,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DateRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.attributePayloadBasicType('DateRandomUp');
-            const invalid_store_display_pdp = faker.random.alpha(7);
+            const invalid_store_display_pdp = faker.string.alpha(7);
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8123,7 +8123,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DateRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.attributePayloadBasicType('DateRandomUp');
-            const invalid_store_display_pdp = Number(faker.random.numeric(5));
+            const invalid_store_display_pdp = Number(faker.number.int(5));
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8150,7 +8150,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'BooleanRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.attributePayloadBasicType('BooleanRandomUp');
-            const invalid_store_search = faker.random.alpha(7);
+            const invalid_store_search = faker.string.alpha(7);
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8177,7 +8177,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'BooleanRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.attributePayloadBasicType('BooleanRandomUp');
-            const invalid_store_search = Number(faker.random.numeric(5));
+            const invalid_store_search = Number(faker.number.int(5));
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8204,7 +8204,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createNumberAttributePayload('NumberRandomUp');
-            const invalid_store_compare = faker.random.alpha(7);
+            const invalid_store_compare = faker.string.alpha(7);
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8231,7 +8231,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'NumberRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createNumberAttributePayload('NumberRandomUp');
-            const invalid_store_compare = Number(faker.random.numeric(5));
+            const invalid_store_compare = Number(faker.number.int(5));
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8258,7 +8258,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DecimalRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createDecimalAttributePayload('DecimalRandomUp');
-            const invalid_active = faker.random.alpha(7);
+            const invalid_active = faker.string.alpha(7);
             payload = {
                 name: payloadData.name,
                 description: payloadData.description,
@@ -8284,7 +8284,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'DecimalRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createDecimalAttributePayload('DecimalRandomUp');
-            const invalid_active = Number(faker.random.numeric(5));
+            const invalid_active = Number(faker.number.int(5));
             payload = {
                 name: payloadData.name,
                 description: payloadData.description,
@@ -8310,7 +8310,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'FileRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createFileAttributePayload('FileRandomUp');
-            const invalid_mandatory = faker.random.alpha(7);
+            const invalid_mandatory = faker.string.alpha(7);
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8337,7 +8337,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'FileRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createFileAttributePayload('FileRandomUp');
-            const invalid_mandatory = Number(faker.random.numeric(5));
+            const invalid_mandatory = Number(faker.number.int(5));
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8364,7 +8364,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'FileRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createFileAttributePayload('FileRandomUp');
-            const invalid_auto_sync_to_prod = faker.random.alpha(7);
+            const invalid_auto_sync_to_prod = faker.string.alpha(7);
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8391,7 +8391,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'FileRandom');
             endpoint = update_delete_SpecificAttributes(orgId, attId);
             payloadData = attributePayloads.createFileAttributePayload('FileRandomUp');
-            const invalid_auto_sync_to_prod = Number(faker.random.numeric(5));
+            const invalid_auto_sync_to_prod = Number(faker.number.int(5));
             payload = {
                 active: payloadData.active,
                 name: payloadData.name,
@@ -8416,7 +8416,7 @@ describe('Attributes Api test cases @cdm @attributes', async function () {
 
     });
 
-    describe('Delete Specific Attributes @cdm @attributes', async function () {
+    describe('Delete Specific Attributes @cc_regression @attributes', async function () {
 
         it('Delete Specific attribute, user is not logged in', async function () {
             attId = FO.getValueFromFile(attributeDetailsFile, 'ShortTextRandom');

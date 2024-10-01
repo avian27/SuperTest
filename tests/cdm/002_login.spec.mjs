@@ -18,13 +18,13 @@ const request = supertest(`https://${baseUrl}`);
 
 
 
-describe('Login Api Test Cases @cdm @login', async function () {
+describe('Login Api Test Cases @cc_regression @login', async function () {
     before(() => {
         invalidUserName = faker.internet.email();
         invalidPassword = faker.internet.password();
     });
 
-    describe('Login @cdm @login', async function () {
+    describe('Login @cc_regression @login', async function () {
         it('login success', async function () {
             payload = JSON.stringify({
                 "username": process.env.CDM_USERNAME,
@@ -105,7 +105,7 @@ describe('Login Api Test Cases @cdm @login', async function () {
         });
     });
 
-    describe('Current Session Info @cdm @login', async function () {
+    describe('Current Session Info @cc_regression @login', async function () {
 
         it('Current Session - User is not logged in', async function () {
             signed_headers = getSignedRequestHeaders("GET", baseUrl, currentSessionApiEndPoint, "", {});
@@ -142,7 +142,7 @@ describe('Login Api Test Cases @cdm @login', async function () {
         });
     });
 
-    describe('Profile Details @cdm @profile', async function () {
+    describe('Profile Details @cc_regression @profile', async function () {
         describe('Get Profile Details', async function () {
             it('User is not logged in', async function () {
                 signed_headers = getSignedRequestHeaders("GET", baseUrl, profileDetailsEndPoint, "", {});
@@ -307,7 +307,7 @@ describe('Login Api Test Cases @cdm @login', async function () {
         });
     });
 
-    describe('Logout @cdm @login', async function () {
+    describe('Logout @cc_regression @login', async function () {
         it('Logout success', async function () {
             signed_headers = getSignedRequestHeaders("POST", baseUrl, logoutApiEndPoint, "", {});
             headers = {

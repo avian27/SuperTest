@@ -16,7 +16,7 @@ const updatePassword = `@${faker.internet.password(10)}1`;
 const baseUrl = EnvironmentConfiguration.getURL(process.env.DOMAIN);
 const request = supertest(`https://${baseUrl}`);
 
-describe('Forgot Password @cdm @pwd', async function () {
+describe('Forgot Password @cc_regression @pwd', async function () {
     it('Forgot Password - empty string sent as email id', async function () {
         payload = JSON.stringify({
             "email": ""
@@ -75,7 +75,7 @@ describe('Forgot Password @cdm @pwd', async function () {
     });
 });
 
-describe('Initialize Email Update @cdm @pwd', async function () {
+describe('Initialize Email Update @cc_regression @pwd', async function () {
     it('Initialize Email Update - User not logged in', async function () {
         payload = JSON.stringify({
             "email": faker.internet.email()
@@ -155,7 +155,7 @@ describe('Initialize Email Update @cdm @pwd', async function () {
     });
 });
 
-describe('Update Password @cdm @pwd', async function () {
+describe('Update Password @cc_regression @pwd', async function () {
 
     it('Update Password - User is not logged in', async function () {
         payload = JSON.stringify({

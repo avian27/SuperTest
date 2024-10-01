@@ -21,12 +21,12 @@ const request = supertest(`https://${baseUrl}`);
 function categoryArrayData(arraySize) {
     let tempCategories = [];
     for (let i = 0; i < arraySize; i++) {
-        tempCategories.push(faker.random.alpha(5));
+        tempCategories.push(faker.string.alpha(5));
     }
     return tempCategories;
 }
 
-describe('Create Organisation @cdm @org', async function () {
+describe('Create Organisation @cc_regression @org', async function () {
 
     it('Create Org - User is not logged in', async function () {
         let categories = [];
@@ -58,7 +58,7 @@ describe('Create Organisation @cdm @org', async function () {
 
     it('Create Org - User is logged in and invalid value is sent for type', async function () {
         let categories = [];
-        const invalidType = faker.random.alpha(5);
+        const invalidType = faker.string.alpha(5);
         orgName = faker.company.name();
         payloadData = createOrgPayload(orgName);
         categories = categoryArrayData(payloadData.categoriesCount);
@@ -308,7 +308,7 @@ describe('Create Organisation @cdm @org', async function () {
 
 });
 
-describe('Fetch Organisation Details @cdm @org', async function () {
+describe('Fetch Organisation Details @cc_regression @org', async function () {
 
     it('Get All Organisation Details - User not logged in', async function () {
         payload = null;
@@ -437,10 +437,10 @@ describe('Fetch Organisation Details @cdm @org', async function () {
 
 });
 
-describe('Update Organisation Details @cdm @org', async function () {
+describe('Update Organisation Details @cc_regression @org', async function () {
 
     it('Update Org Details - User is not logged in', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             display_name: payloadData.orgName,
@@ -465,7 +465,7 @@ describe('Update Organisation Details @cdm @org', async function () {
     });
 
     it('Update Org Details - Invalid Org Id is sent', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             display_name: payloadData.orgName,
@@ -491,7 +491,7 @@ describe('Update Organisation Details @cdm @org', async function () {
     });
 
     it('Update Org Details - Empty string is sent for name', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             display_name: "",
@@ -518,7 +518,7 @@ describe('Update Organisation Details @cdm @org', async function () {
     });
 
     it('Update Org Details - String is sent for Pincode', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             display_name: payloadData.orgName,
@@ -530,7 +530,7 @@ describe('Update Organisation Details @cdm @org', async function () {
                 state: payloadData.address.state,
                 country: payloadData.address.country,
                 landmark: payloadData.address.landmark,
-                pincode: faker.random.alpha(6)
+                pincode: faker.string.alpha(6)
             }
         };
         payloadJSON = JSON.stringify(payload);
@@ -552,7 +552,7 @@ describe('Update Organisation Details @cdm @org', async function () {
     });
 
     it('Update Org Details - User is logged in and Org is Updated successfully', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             display_name: payloadData.orgName,
@@ -586,7 +586,7 @@ describe('Update Organisation Details @cdm @org', async function () {
     });
 
     it('Update Org Details - Only Name is updated', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             display_name: payloadData.orgName,
@@ -611,7 +611,7 @@ describe('Update Organisation Details @cdm @org', async function () {
     });
 
     it('Update Org Details - Only pincode is updated', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             address: {
@@ -638,7 +638,7 @@ describe('Update Organisation Details @cdm @org', async function () {
     });
 
     it('Update Org Details - Only city is updated', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             address: {
@@ -665,7 +665,7 @@ describe('Update Organisation Details @cdm @org', async function () {
     });
 
     it('Update Org Details - Only State is updated', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             address: {
@@ -692,7 +692,7 @@ describe('Update Organisation Details @cdm @org', async function () {
     });
 
     it('Update Org Details - Only Country is updated', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             address: {
@@ -719,7 +719,7 @@ describe('Update Organisation Details @cdm @org', async function () {
     });
 
     it('Update Org Details - Only Company Size is updated', async function () {
-        const updateOrgName = faker.random.alpha(20);
+        const updateOrgName = faker.string.alpha(20);
         payloadData = createOrgPayload(updateOrgName);
         payload = {
             company_size: payloadData.companySize
