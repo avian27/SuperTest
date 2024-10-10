@@ -6,12 +6,12 @@ function generateCodeNameString(stringText) {
     let prefix = '';
     let suffix = '';
     if (randomPosition === 0) {
-        suffix = faker.string.alphanumeric(2);
+        suffix = faker.string.alphanumeric(faker.number.int({ min: 0, max: 5 }));
     } else if (randomPosition === 1) {
-        prefix = faker.string.alphanumeric(faker.number.int({ min: 0, max: 3 }));
-        suffix = faker.string.alphanumeric(faker.number.int({ min: 0, max: 3 }));
+        prefix = faker.string.alphanumeric(faker.number.int({ min: 0, max: 5 }));
+        suffix = faker.string.alphanumeric(faker.number.int({ min: 0, max: 5 }));
     } else {
-        prefix = faker.string.alphanumeric(2);
+        prefix = faker.string.alphanumeric(faker.number.int({ min: 0, max: 5 }));
     }
     const generatedString = prefix + stringText + suffix;
     return generatedString.trim();
